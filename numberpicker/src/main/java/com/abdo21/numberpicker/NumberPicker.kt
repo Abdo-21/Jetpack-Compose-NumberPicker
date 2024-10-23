@@ -48,7 +48,6 @@ data class PickerDividerStyle(
     }
 }
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun StringPicker(
