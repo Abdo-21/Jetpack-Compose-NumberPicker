@@ -10,6 +10,7 @@ import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.takeOrElse
 import androidx.compose.ui.util.lerp
 import kotlin.math.absoluteValue
 import kotlin.math.max
@@ -94,9 +96,16 @@ fun StringPicker(
 
     val lineWidth = dividerStyle.thickness.toPx()
 
-
     val dividerColor = dividerStyle.color.takeOrElse {
         LocalContentColor.current
+    }
+
+    val selectedFontSize = selectedTextStyle.textSize.takeOrElse {
+        MaterialTheme.typography.bodyLarge.fontSize
+    }
+
+    val unselectedFontSize = unselectedTextStyle.textSize.takeOrElse {
+        MaterialTheme.typography.bodyLarge.fontSize
     }
 
     VerticalPager(
@@ -135,8 +144,8 @@ fun StringPicker(
         )
 
         val fontSize = lerp(
-            start = unselectedTextStyle.textSize.value,
-            stop = selectedTextStyle.textSize.value,
+            start = unselectedFontSize.value,
+            stop = selectedFontSize.value,
             fraction = pageOffset.coerceIn(0f, 1f)
         )
 
