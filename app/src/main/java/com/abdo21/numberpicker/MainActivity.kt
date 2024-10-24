@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.abdo21.datepicker.DatePicker
 import com.abdo21.numberpicker.ui.theme.NumberPickerTheme
 import com.abdo21.timepicker.TimePicker
 
@@ -35,6 +36,7 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
                     ) {
                         val values = 1..10
+
                         NumberPicker(
                             modifier = Modifier
                                 .size(width = 100.dp, height = 150.dp),
@@ -47,6 +49,17 @@ class MainActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.height(10.dp))
 
                         TimePicker(
+                            modifier = Modifier
+                                .background(color = Color.LightGray)
+                                .size(width = 340.dp, height = 300.dp),
+                            onValueChanged = { _, _, _ ->
+
+                            }
+                        )
+
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        DatePicker(
                             modifier = Modifier
                                 .background(color = Color.LightGray)
                                 .size(width = 340.dp, height = 300.dp),
