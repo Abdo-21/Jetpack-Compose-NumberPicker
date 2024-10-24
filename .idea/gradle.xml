@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/datepicker" />
             <option value="$PROJECT_DIR$/numberpicker" />
             <option value="$PROJECT_DIR$/timepicker" />

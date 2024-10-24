@@ -1,4 +1,4 @@
-package com.abdo21.numberpicker
+package com.abdo21.core
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

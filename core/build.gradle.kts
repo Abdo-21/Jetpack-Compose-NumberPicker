@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.abdo21.datepicker"
+    namespace = "com.abdo21.core"
     compileSdk = 34
 
     defaultConfig {
@@ -39,8 +39,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":numberpicker"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
