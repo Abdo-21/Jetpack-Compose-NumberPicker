@@ -19,6 +19,7 @@ Add the following dependency to your `build.gradle` (Kotlin DSL):
 dependencies {
     implementation("com.yourdomain:jetpackpickers:1.0.0")
 }
+````
 
 ##Usage
 
