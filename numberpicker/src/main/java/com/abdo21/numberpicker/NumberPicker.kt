@@ -50,6 +50,17 @@ data class PickerDividerStyle(
     }
 }
 
+/**
+ * A composable for selecting a string from a list of values.
+ *
+ * @param values List of strings to display.
+ * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
+ * @param modifier Modifier for adjusting the layout (optional).
+ * @param initialIndex Index of the item selected initially (default is 0).
+ * @param dividerStyle Style for dividers between items (optional, default is `PickerDividerStyle.Default`).
+ * @param selectedTextStyle Style for the selected item’s text (optional, default is `PickerTextStyle.Default`).
+ * @param unselectedTextStyle Style for unselected items’ text (optional, default is `PickerTextStyle.Default`).
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun StringPicker(
@@ -171,6 +182,17 @@ fun <T: Number> NumberPicker(
     },
 )
 
+/**
+ * A composable for selecting a number from a list of values.
+ *
+ * @param values List of numbers to display.
+ * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
+ * @param modifier Modifier for customizing layout (optional).
+ * @param initialIndex Index of the item selected initially (default is 0).
+ * @param dividerStyle Style for dividers between items (optional, default is `PickerDividerStyle.Default`).
+ * @param selectedTextStyle Style for the selected item’s text (optional, default is `PickerTextStyle.Default`).
+ * @param unselectedTextStyle Style for unselected items’ text (optional, default is `PickerTextStyle.Default`).
+ */
 @Composable
 fun NumberPicker(
     values : IntRange,
