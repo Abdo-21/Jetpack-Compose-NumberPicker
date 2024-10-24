@@ -9,6 +9,7 @@ import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
@@ -31,8 +33,8 @@ import kotlin.math.max
 
 data class PickerTextStyle(
     val fontWeight: FontWeight = FontWeight.Normal,
-    val textSize: TextUnit = 16.sp,
-    val textColor: Color = Color.Black
+    val textSize: TextUnit = TextUnit.Unspecified,
+    val textColor: Color = Color.Unspecified
 ) {
     companion object {
         val Default = PickerTextStyle()
@@ -40,7 +42,7 @@ data class PickerTextStyle(
 }
 
 data class PickerDividerStyle(
-    val color: Color = Color.Black,
+    val color: Color = Color.Unspecified,
     val thickness: Dp = 1.dp
 ) {
     companion object {
@@ -81,6 +83,11 @@ fun StringPicker(
 
     val lineWidth = dividerStyle.thickness.toPx()
 
+
+    val dividerColor = dividerStyle.color.takeOrElse {
+        LocalContentColor.current
+    }
+
     VerticalPager(
         state = pagerState,
         pageSize = OneTherePageSize,
@@ -92,14 +99,14 @@ fun StringPicker(
                 val y2 = size.height * 2 / 3
 
                 drawLine(
-                    color = dividerStyle.color,
+                    color = dividerColor,
                     start = Offset(0f, y1),
                     end = Offset(size.width, y1),
                     strokeWidth = lineWidth
                 )
 
                 drawLine(
-                    color = dividerStyle.color,
+                    color = dividerColor,
                     start = Offset(0f, y2),
                     end = Offset(size.width, y2),
                     strokeWidth = lineWidth
