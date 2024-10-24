@@ -21,7 +21,7 @@ dependencies {
 }
 ````
 
-##Usage
+## Usage
 
 1. NumberPicker
 
@@ -88,7 +88,7 @@ fun DatePickerExample() {
 }
 ```
 
-##Customization
+## Customization
 
 All three pickers (NumberPicker, TimePicker, DatePicker) support the following customizable options:
 
@@ -107,6 +107,6 @@ NumberPicker(
 )
 ```
 
-##License
+## License
 
 This library is distributed under the MIT License. See the LICENSE file for more information.
