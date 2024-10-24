@@ -4,6 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,13 +32,22 @@ fun DatePicker(
     minYear: Int = 1987,
     maxYear: Int = 2100
 ) {
-    var year = 0
-    var month = 0
+    var year by remember {
+        mutableIntStateOf(0)
+    }
+
+    var month by remember {
+        mutableIntStateOf(0)
+    }
+
     var day = 0
 
     val yearRange = minYear..maxYear
     val monthRange = 1..12
-    val dayRange = 1..numberOfDays(year, month)
+
+    val dayRange by remember(year, month) {
+        mutableStateOf(1..numberOfDays(year, month))
+    }
 
     PickerRow(
         modifier = modifier,
