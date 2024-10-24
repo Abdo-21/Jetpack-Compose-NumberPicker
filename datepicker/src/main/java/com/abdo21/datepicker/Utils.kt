@@ -3,7 +3,7 @@ package com.abdo21.datepicker
 import java.util.Calendar
 
 
-fun numberOfDays(year: Int, month: Int): Int {
+internal fun numberOfDays(year: Int, month: Int): Int {
     val calendar = Calendar.getInstance()
 
     // Set the year and month. The month is zero-based, so subtract 1 from the input month.

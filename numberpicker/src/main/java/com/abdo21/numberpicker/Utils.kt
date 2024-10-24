@@ -23,7 +23,7 @@ fun Dp.toPx() = with(LocalDensity.current) {
 }
 
 @Composable
-fun PickerRow(
+inline fun PickerRow(
     modifier: Modifier = Modifier,
     itemSpacing : Int,
     content: @Composable () -> Unit
