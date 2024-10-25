@@ -4,6 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,9 +65,9 @@ fun TimePicker(
     selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
     unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
 ) {
-    var hour = initialTime.hour
-    var minute = initialTime.minute
-    var timeMode = initialTime.timeMode
+    var time by remember {
+        mutableStateOf(initialTime)
+    }
 
     val hourRange = 1..12
     val minuteRange = 0..59
@@ -75,9 +79,9 @@ fun TimePicker(
     ) {
         VerticalNumberPicker(
             values = hourRange,
-            initialIndex = hour - 1,
+            initialIndex = time.hour - 1,
             onValueChanged = { selectedIndex ->
-                hour = hourRange.first + selectedIndex
+                time = time.copy(hour = hourRange.first + selectedIndex)
             },
             dividerStyle = dividerStyle,
             selectedTextStyle = selectedTextStyle,
@@ -86,9 +90,9 @@ fun TimePicker(
 
         VerticalNumberPicker(
             values = minuteRange,
-            initialIndex = minute,
+            initialIndex = time.minute,
             onValueChanged = { selectedIndex ->
-                minute = minuteRange.first + selectedIndex
+                time = time.copy(minute = minuteRange.first + selectedIndex)
             },
             dividerStyle = dividerStyle,
             selectedTextStyle = selectedTextStyle,
@@ -97,9 +101,9 @@ fun TimePicker(
 
         VerticalStringPicker(
             values = modes,
-            initialIndex = timeMode.ordinal,
+            initialIndex = time.timeMode.ordinal,
             onValueChanged = { selectedIndex ->
-                timeMode = if (modes[selectedIndex] == "AM") TimeMode.AM else TimeMode.PM
+                time = time.copy(timeMode = if (modes[selectedIndex] == "AM") TimeMode.AM else TimeMode.PM)
             },
             dividerStyle = dividerStyle,
             selectedTextStyle = selectedTextStyle,
@@ -107,8 +111,8 @@ fun TimePicker(
         )
     }
 
-    LaunchedEffect(key1 = hour, key2 = minute, key3 = timeMode) {
-        onValueChanged(Time(hour, minute, timeMode))
+    LaunchedEffect(time) {
+        onValueChanged(time)
     }
 }
 
