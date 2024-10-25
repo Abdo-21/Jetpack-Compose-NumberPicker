@@ -58,11 +58,11 @@ data class PickerDividerStyle(
  *
  * @param values List of strings to display.
  * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
- * @param modifier Modifier for adjusting the layout (optional).
- * @param initialIndex Index of the item selected initially (default is 0).
- * @param dividerStyle Style for dividers between items (optional, default is `PickerDividerStyle.Default`).
- * @param selectedTextStyle Style for the selected item’s text (optional, default is `PickerTextStyle.Default`).
- * @param unselectedTextStyle Style for unselected items’ text (optional, default is `PickerTextStyle.Default`).
+ * @param modifier Modifier for adjusting the layout.
+ * @param initialIndex Index of the item selected initially.
+ * @param dividerStyle Style for dividers between items.
+ * @param selectedTextStyle Style for the selected item’s text.
+ * @param unselectedTextStyle Style for unselected items’ text.
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -197,11 +197,11 @@ fun <T: Number> NumberPicker(
  *
  * @param values List of numbers to display.
  * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
- * @param modifier Modifier for customizing layout (optional).
- * @param initialIndex Index of the item selected initially (default is 0).
- * @param dividerStyle Style for dividers between items (optional, default is `PickerDividerStyle.Default`).
- * @param selectedTextStyle Style for the selected item’s text (optional, default is `PickerTextStyle.Default`).
- * @param unselectedTextStyle Style for unselected items’ text (optional, default is `PickerTextStyle.Default`).
+ * @param modifier Modifier for customizing layout.
+ * @param initialIndex Index of the item selected initially.
+ * @param dividerStyle Style for dividers between items.
+ * @param selectedTextStyle Style for the selected item’s text.
+ * @param unselectedTextStyle Style for unselected items’ text.
  */
 @Composable
 fun NumberPicker(
