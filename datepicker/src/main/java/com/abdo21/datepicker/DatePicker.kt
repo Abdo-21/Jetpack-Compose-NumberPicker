@@ -56,7 +56,7 @@ data class Date(
 /**
  * A composable for selecting a date (year, month, day).
  *
- * @param onValueChanged Callback invoked when the date changes, providing the selected year, month, and day.
+ * @param onValueChanged Callback invoked when the date changes.
  * @param modifier Modifier for customizing layout.
  * @param initialDate The initial date to display.
  * @param dividerStyle Style for dividers between items.

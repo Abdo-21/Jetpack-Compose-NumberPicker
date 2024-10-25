@@ -47,7 +47,7 @@ data class Time(
 /**
  * A composable for selecting time (hours and minutes).
  *
- * @param onValueChanged Callback invoked when the time changes, providing the selected hour, minute, and time mode (AM/PM).
+ * @param onValueChanged Callback invoked when the time changes.
  * @param modifier Modifier for customizing layout.
  * @param initialTime The initial time to display.
  * @param dividerStyle Style for dividers between items.

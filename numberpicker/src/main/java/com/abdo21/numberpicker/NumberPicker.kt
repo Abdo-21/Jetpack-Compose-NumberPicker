@@ -55,10 +55,11 @@ data class PickerDividerStyle(
 }
 
 /**
- * A composable for selecting a string from a list of values, aliened vertically.
+ * A composable for selecting a string from a list of values,
+ * aliened vertically.
  *
  * @param values List of strings to display.
- * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
+ * @param onValueChanged Callback invoked when the selected item changes.
  * @param modifier Modifier for adjusting the layout.
  * @param initialIndex Index of the item selected initially.
  * @param dividerStyle Style for dividers between items.
@@ -173,10 +174,11 @@ fun VerticalStringPicker(
 }
 
 /**
- * A composable for selecting a number from a list of values, aliened vertically.
+ * A composable for selecting a number from a list of values,
+ * aliened vertically.
  *
  * @param values List of numbers to display.
- * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
+ * @param onValueChanged Callback invoked when the selected item changes.
  * @param modifier Modifier for customizing layout.
  * @param initialIndex Index of the item selected initially.
  * @param dividerStyle Style for dividers between items.
@@ -205,10 +207,11 @@ fun <T: Number> VerticalNumberPicker(
 )
 
 /**
- * A composable for selecting a number from a range of values, aliened vertically.
+ * A composable for selecting a number from a range of values,
+ * aliened vertically.
  *
  * @param values List of numbers to display.
- * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
+ * @param onValueChanged Callback invoked when the selected item changes.
  * @param modifier Modifier for customizing layout.
  * @param initialIndex Index of the item selected initially.
  * @param dividerStyle Style for dividers between items.
@@ -238,10 +241,11 @@ fun VerticalNumberPicker(
 
 
 /**
- * A composable for selecting a string from a list of values aliened horizontally.
+ * A composable for selecting a string from a list of values
+ * aliened horizontally.
  *
  * @param values List of strings to display.
- * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
+ * @param onValueChanged Callback invoked when the selected item changes.
  * @param modifier Modifier for adjusting the layout.
  * @param initialIndex Index of the item selected initially.
  * @param dividerStyle Style for dividers between items.
@@ -356,10 +360,11 @@ fun HorizontalStringPicker(
 }
 
 /**
- * A composable for selecting a number from a list of values, aliened horizontally.
+ * A composable for selecting a number from a list of values,
+ * aliened horizontally.
  *
  * @param values List of numbers to display.
- * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
+ * @param onValueChanged Callback invoked when the selected item changes.
  * @param modifier Modifier for customizing layout.
  * @param initialIndex Index of the item selected initially.
  * @param dividerStyle Style for dividers between items.
@@ -388,10 +393,11 @@ fun <T: Number> HorizontalNumberPicker(
 )
 
 /**
- * A composable for selecting a number from a range of values, aliened horizontally.
+ * A composable for selecting a number from a range of values,
+ * aliened horizontally.
  *
  * @param values List of numbers to display.
- * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
+ * @param onValueChanged Callback invoked when the selected item changes.
  * @param modifier Modifier for customizing layout.
  * @param initialIndex Index of the item selected initially.
  * @param dividerStyle Style for dividers between items.
