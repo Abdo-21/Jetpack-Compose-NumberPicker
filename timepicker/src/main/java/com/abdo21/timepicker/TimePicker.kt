@@ -42,7 +42,11 @@ data class AMPMTime(
             )
         }
 
-        val Zero = AMPMTime(hour = 0, minute = 0, timeMode = TimeMode.AM)
+        val Zero = AMPMTime(
+            hour = 0,
+            minute = 0,
+            timeMode = TimeMode.AM
+        )
     }
 }
 
@@ -61,7 +65,10 @@ data class H24Time(
             )
         }
 
-        val Zero = H24Time(hour = 0, minute = 0)
+        val Zero = H24Time(
+            hour = 0,
+            minute = 0
+        )
     }
 }
 
@@ -122,7 +129,7 @@ fun TimePicker(
 
         StringPicker(
             values = modes,
-            initialIndex = time.timeMode!!.ordinal,
+            initialIndex = time.timeMode.ordinal,
             onValueChanged = { selectedIndex ->
                 time = time.copy(timeMode = if (modes[selectedIndex] == "AM") TimeMode.AM else TimeMode.PM)
             },
@@ -162,7 +169,7 @@ fun TimePicker(
         mutableStateOf(initialTime)
     }
 
-    val hourRange = 1..12
+    val hourRange = 0..23
     val minuteRange = 0..59
 
     PickerRow(
@@ -200,7 +207,21 @@ fun TimePicker(
 
 @Preview(showBackground = true)
 @Composable
-private fun TimePickerPreview() {
+private fun AMPMTimePickerPreview() {
+    TimePicker(
+        initialTime = AMPMTime.NOW,
+        modifier = Modifier
+            .background(color = Color.LightGray)
+            .size(width = 340.dp, height = 300.dp),
+        onValueChanged = { selectedTime ->
+
+        },
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun H24TimePickerPreview() {
     TimePicker(
         initialTime = H24Time.NOW,
         modifier = Modifier
