@@ -23,36 +23,14 @@ import java.util.Calendar
 
 enum class TimeMode { AM, PM }
 
-sealed class Time(
+
+data class AMPMTime(
     val hour: Int,
     val minute: Int,
-    val timeMode: TimeMode?
+    val timeMode: TimeMode
 ) {
-    abstract fun copy(
-        hour: Int = this.hour,
-        minute: Int = this.minute,
-        timeMode: TimeMode? = this.timeMode
-    ) : Time
-}
-
-class AMPMTime(
-    hour: Int,
-    minute: Int,
-    timeMode: TimeMode?
-) : Time(hour, minute, timeMode) {
-
-    override fun copy(
-        hour: Int,
-        minute: Int,
-        timeMode: TimeMode?
-    ) = AMPMTime(
-        hour = hour,
-        minute = minute,
-        timeMode = timeMode
-    )
-
     companion object {
-        val Default = run {
+        val NOW = run {
             val calendar = Calendar.getInstance()
             val currentHour = calendar.get(Calendar.HOUR)
             val currentMinute = calendar.get(Calendar.MINUTE)
@@ -63,25 +41,17 @@ class AMPMTime(
                 timeMode = if (mode == Calendar.AM) TimeMode.AM else TimeMode.PM
             )
         }
+
+        val Zero = AMPMTime(hour = 0, minute = 0, timeMode = TimeMode.AM)
     }
 }
 
-class H24Time(
-    hour: Int,
-    minute: Int,
-) : Time(hour, minute, null) {
-
-    override fun copy(
-        hour: Int,
-        minute: Int,
-        timeMode: TimeMode?
-    ) = H24Time(
-        hour = hour,
-        minute = minute
-    )
-
+data class H24Time(
+    val hour: Int,
+    val minute: Int,
+) {
     companion object {
-        val Default = run {
+        val NOW = run {
             val calendar = Calendar.getInstance()
             val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
             val currentMinute = calendar.get(Calendar.MINUTE)
@@ -90,15 +60,17 @@ class H24Time(
                 minute = currentMinute
             )
         }
+
+        val Zero = H24Time(hour = 0, minute = 0)
     }
 }
 
 /**
- * A composable for selecting time (hours and minutes).
+ * A AM/PM Hour Time picker.
  *
+ * @param initialTime The initial time to display.
  * @param onValueChanged Callback invoked when the time changes.
  * @param modifier Modifier for customizing layout.
- * @param initialTime The initial time to display.
  * @param dividerStyle Style for dividers between items.
  * @param itemSpacing Spacing between the picker items.
  * @param selectedTextStyle Text style for the selected time.
@@ -106,41 +78,9 @@ class H24Time(
  */
 @Composable
 fun TimePicker(
-    onValueChanged: (selectedTime: Time) -> Unit,
+    initialTime: AMPMTime,
+    onValueChanged: (selectedTime: AMPMTime) -> Unit,
     modifier: Modifier = Modifier,
-    is24Hour: Boolean = false,
-    initialTime: Time = if (is24Hour) H24Time.Default else AMPMTime.Default,
-    dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
-    itemSpacing: Dp = 10.dp,
-    selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
-    unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
-) = if (is24Hour) {
-    H24TimePicker(
-        onValueChanged = onValueChanged,
-        modifier = modifier,
-        initialTime = initialTime as H24Time,
-        dividerStyle = dividerStyle,
-        itemSpacing = itemSpacing,
-        selectedTextStyle = selectedTextStyle,
-        unselectedTextStyle = unselectedTextStyle
-    )
-} else {
-    AMPMTimePicker(
-        onValueChanged = onValueChanged,
-        modifier = modifier,
-        initialTime = initialTime as AMPMTime,
-        dividerStyle = dividerStyle,
-        itemSpacing = itemSpacing,
-        selectedTextStyle = selectedTextStyle,
-        unselectedTextStyle = unselectedTextStyle
-    )
-}
-
-@Composable
-private fun AMPMTimePicker(
-    onValueChanged: (selectedTime: Time) -> Unit,
-    modifier: Modifier = Modifier,
-    initialTime: Time = AMPMTime.Default,
     dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
     itemSpacing: Dp = 10.dp,
     selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
@@ -197,11 +137,22 @@ private fun AMPMTimePicker(
     }
 }
 
+/**
+ * A 24 Hour Time picker.
+ *
+ * @param initialTime The initial time to display.
+ * @param onValueChanged Callback invoked when the time changes.
+ * @param modifier Modifier for customizing layout.
+ * @param dividerStyle Style for dividers between items.
+ * @param itemSpacing Spacing between the picker items.
+ * @param selectedTextStyle Text style for the selected time.
+ * @param unselectedTextStyle Text style for unselected times.
+ */
 @Composable
-private fun H24TimePicker(
-    onValueChanged: (selectedTime: Time) -> Unit,
+fun TimePicker(
+    initialTime: H24Time,
+    onValueChanged: (selectedTime: H24Time) -> Unit,
     modifier: Modifier = Modifier,
-    initialTime: Time = H24Time.Default,
     dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
     itemSpacing: Dp = 10.dp,
     selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
@@ -251,12 +202,12 @@ private fun H24TimePicker(
 @Composable
 private fun TimePickerPreview() {
     TimePicker(
+        initialTime = H24Time.NOW,
         modifier = Modifier
             .background(color = Color.LightGray)
             .size(width = 340.dp, height = 300.dp),
         onValueChanged = { selectedTime ->
 
         },
-        is24Hour = true
     )
 }
