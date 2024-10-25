@@ -18,18 +18,29 @@ import com.abdo21.numberpicker.StringPicker
 
 enum class TimeMode { AM, PM }
 
+data class Time(
+    val hour: Int,
+    val minute: Int,
+    val timeMode: TimeMode
+) {
+    companion object {
+        val Default = currentTime()
+    }
+}
+
 @Composable
 fun TimePicker(
     onValueChanged: (hour: Int, minute: Int, timeMode: TimeMode) -> Unit,
     modifier: Modifier = Modifier,
+    initialTime: Time = Time.Default,
     dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
     itemSpacing: Dp = 10.dp,
     selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
     unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
 ) {
-    var hour = 0
-    var minute = 0
-    var timeMode = TimeMode.AM
+    var hour = initialTime.hour
+    var minute = initialTime.minute
+    var timeMode = initialTime.timeMode
 
     val hourRange = 1..12
     val minuteRange = 0..59
@@ -41,6 +52,7 @@ fun TimePicker(
     ) {
         NumberPicker(
             values = hourRange,
+            initialIndex = hour - 1,
             onValueChanged = { selectedIndex ->
                 hour = hourRange.first + selectedIndex
             },
@@ -51,6 +63,7 @@ fun TimePicker(
 
         NumberPicker(
             values = minuteRange,
+            initialIndex = minute,
             onValueChanged = { selectedIndex ->
                 minute = minuteRange.first + selectedIndex
             },
@@ -61,6 +74,7 @@ fun TimePicker(
 
         StringPicker(
             values = modes,
+            initialIndex = timeMode.ordinal,
             onValueChanged = { selectedIndex ->
                 timeMode = if (modes[selectedIndex] == "AM") TimeMode.AM else TimeMode.PM
             },
