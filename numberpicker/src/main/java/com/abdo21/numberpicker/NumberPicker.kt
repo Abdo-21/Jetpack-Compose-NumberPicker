@@ -34,6 +34,9 @@ import com.abdo21.core.toPx
 import kotlin.math.absoluteValue
 import kotlin.math.max
 
+enum class Orientation {
+    Vertical, Horizontal
+}
 
 data class PickerTextStyle(
     val fontWeight: FontWeight = FontWeight.Normal,
@@ -56,19 +59,129 @@ data class PickerDividerStyle(
 
 /**
  * A composable for selecting a string from a list of values,
- * aliened vertically.
  *
  * @param values List of strings to display.
  * @param onValueChanged Callback invoked when the selected item changes.
  * @param modifier Modifier for adjusting the layout.
  * @param initialIndex Index of the item selected initially.
+ * @param orientation Orientation of the number picker
  * @param dividerStyle Style for dividers between items.
  * @param selectedTextStyle Style for the selected item’s text.
  * @param unselectedTextStyle Style for unselected items’ text.
  */
+@Composable
+fun StringPicker(
+    values : List<String>,
+    onValueChanged: (selectedIndex: Int) -> Unit,
+    modifier: Modifier = Modifier,
+    initialIndex: Int = 0,
+    orientation: Orientation = Orientation.Vertical,
+    dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
+    selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
+    unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
+) = if (orientation == Orientation.Horizontal) {
+    HorizontalStringPicker(
+        values = values,
+        onValueChanged = onValueChanged,
+        modifier = modifier,
+        initialIndex = initialIndex,
+        dividerStyle = dividerStyle,
+        selectedTextStyle = selectedTextStyle,
+        unselectedTextStyle = unselectedTextStyle
+    )
+} else {
+    VerticalStringPicker(
+        values = values,
+        onValueChanged = onValueChanged,
+        modifier = modifier,
+        initialIndex = initialIndex,
+        dividerStyle = dividerStyle,
+        selectedTextStyle = selectedTextStyle,
+        unselectedTextStyle = unselectedTextStyle
+    )
+}
+
+/**
+ * A composable for selecting a number from a list of values,
+ *
+ * @param values List of numbers to display.
+ * @param onValueChanged Callback invoked when the selected item changes.
+ * @param modifier Modifier for customizing layout.
+ * @param initialIndex Index of the item selected initially.
+ * @param orientation Orientation of the number picker
+ * @param dividerStyle Style for dividers between items.
+ * @param selectedTextStyle Style for the selected item’s text.
+ * @param unselectedTextStyle Style for unselected items’ text.
+ */
+@Composable
+fun <T: Number> NumberPicker(
+    values : List<T>,
+    onValueChanged: (selectedIndex: Int) -> Unit,
+    modifier: Modifier = Modifier,
+    initialIndex: Int = 0,
+    orientation: Orientation = Orientation.Vertical,
+    dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
+    selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
+    unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
+) = if (orientation == Orientation.Horizontal) {
+    HorizontalNumberPicker(
+        values = values,
+        onValueChanged = onValueChanged,
+        modifier = modifier,
+        initialIndex = initialIndex,
+        dividerStyle = dividerStyle,
+        selectedTextStyle = selectedTextStyle,
+        unselectedTextStyle = unselectedTextStyle
+    )
+} else {
+    VerticalNumberPicker(
+        values = values,
+        onValueChanged = onValueChanged,
+        modifier = modifier,
+        initialIndex = initialIndex,
+        dividerStyle = dividerStyle,
+        selectedTextStyle = selectedTextStyle,
+        unselectedTextStyle = unselectedTextStyle
+    )
+}
+
+
+/**
+ * A composable for selecting a number from a range of values,
+ *
+ * @param values List of numbers to display.
+ * @param onValueChanged Callback invoked when the selected item changes.
+ * @param modifier Modifier for customizing layout.
+ * @param initialIndex Index of the item selected initially.
+ * @param orientation Orientation of the number picker
+ * @param dividerStyle Style for dividers between items.
+ * @param selectedTextStyle Style for the selected item’s text.
+ * @param unselectedTextStyle Style for unselected items’ text.
+ */
+@Composable
+fun NumberPicker(
+    values : IntRange,
+    onValueChanged: (selectedIndex: Int) -> Unit,
+    modifier: Modifier = Modifier,
+    initialIndex: Int = 0,
+    orientation: Orientation = Orientation.Vertical,
+    dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
+    selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
+    unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
+) = NumberPicker(
+    values = values.toList(),
+    onValueChanged = onValueChanged,
+    modifier = modifier,
+    initialIndex = initialIndex,
+    orientation = orientation,
+    dividerStyle = dividerStyle,
+    selectedTextStyle = selectedTextStyle,
+    unselectedTextStyle = unselectedTextStyle
+)
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun VerticalStringPicker(
+private fun VerticalStringPicker(
     values : List<String>,
     onValueChanged: (selectedIndex: Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -173,20 +286,8 @@ fun VerticalStringPicker(
     }
 }
 
-/**
- * A composable for selecting a number from a list of values,
- * aliened vertically.
- *
- * @param values List of numbers to display.
- * @param onValueChanged Callback invoked when the selected item changes.
- * @param modifier Modifier for customizing layout.
- * @param initialIndex Index of the item selected initially.
- * @param dividerStyle Style for dividers between items.
- * @param selectedTextStyle Style for the selected item’s text.
- * @param unselectedTextStyle Style for unselected items’ text.
- */
 @Composable
-fun <T: Number> VerticalNumberPicker(
+private fun <T: Number> VerticalNumberPicker(
     values : List<T>,
     onValueChanged: (selectedIndex: Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -203,58 +304,12 @@ fun <T: Number> VerticalNumberPicker(
     unselectedTextStyle = unselectedTextStyle,
     onValueChanged = { selectedIndex ->
         onValueChanged(selectedIndex)
-    },
+    }
 )
 
-/**
- * A composable for selecting a number from a range of values,
- * aliened vertically.
- *
- * @param values List of numbers to display.
- * @param onValueChanged Callback invoked when the selected item changes.
- * @param modifier Modifier for customizing layout.
- * @param initialIndex Index of the item selected initially.
- * @param dividerStyle Style for dividers between items.
- * @param selectedTextStyle Style for the selected item’s text.
- * @param unselectedTextStyle Style for unselected items’ text.
- */
-@Composable
-fun VerticalNumberPicker(
-    values : IntRange,
-    onValueChanged: (selectedIndex: Int) -> Unit,
-    modifier: Modifier = Modifier,
-    initialIndex: Int = 0,
-    dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
-    selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
-    unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
-) = VerticalNumberPicker(
-    values = values.toList(),
-    modifier = modifier,
-    initialIndex = initialIndex,
-    dividerStyle = dividerStyle,
-    selectedTextStyle = selectedTextStyle,
-    unselectedTextStyle = unselectedTextStyle,
-    onValueChanged = { selectedIndex ->
-        onValueChanged(selectedIndex)
-    },
-)
-
-
-/**
- * A composable for selecting a string from a list of values
- * aliened horizontally.
- *
- * @param values List of strings to display.
- * @param onValueChanged Callback invoked when the selected item changes.
- * @param modifier Modifier for adjusting the layout.
- * @param initialIndex Index of the item selected initially.
- * @param dividerStyle Style for dividers between items.
- * @param selectedTextStyle Style for the selected item’s text.
- * @param unselectedTextStyle Style for unselected items’ text.
- */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HorizontalStringPicker(
+private fun HorizontalStringPicker(
     values : List<String>,
     onValueChanged: (selectedIndex: Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -354,25 +409,12 @@ fun HorizontalStringPicker(
     }
 
     LaunchedEffect(pagerState.currentPage) {
-        val index = pagerState.currentPage
-        onValueChanged(index)
+        onValueChanged(pagerState.currentPage)
     }
 }
 
-/**
- * A composable for selecting a number from a list of values,
- * aliened horizontally.
- *
- * @param values List of numbers to display.
- * @param onValueChanged Callback invoked when the selected item changes.
- * @param modifier Modifier for customizing layout.
- * @param initialIndex Index of the item selected initially.
- * @param dividerStyle Style for dividers between items.
- * @param selectedTextStyle Style for the selected item’s text.
- * @param unselectedTextStyle Style for unselected items’ text.
- */
 @Composable
-fun <T: Number> HorizontalNumberPicker(
+private fun <T: Number> HorizontalNumberPicker(
     values : List<T>,
     onValueChanged: (selectedIndex: Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -389,42 +431,8 @@ fun <T: Number> HorizontalNumberPicker(
     unselectedTextStyle = unselectedTextStyle,
     onValueChanged = { selectedIndex ->
         onValueChanged(selectedIndex)
-    },
+    }
 )
-
-/**
- * A composable for selecting a number from a range of values,
- * aliened horizontally.
- *
- * @param values List of numbers to display.
- * @param onValueChanged Callback invoked when the selected item changes.
- * @param modifier Modifier for customizing layout.
- * @param initialIndex Index of the item selected initially.
- * @param dividerStyle Style for dividers between items.
- * @param selectedTextStyle Style for the selected item’s text.
- * @param unselectedTextStyle Style for unselected items’ text.
- */
-@Composable
-fun HorizontalNumberPicker(
-    values : IntRange,
-    onValueChanged: (selectedIndex: Int) -> Unit,
-    modifier: Modifier = Modifier,
-    initialIndex: Int = 0,
-    dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
-    selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
-    unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
-) = HorizontalNumberPicker(
-    values = values.toList(),
-    modifier = modifier,
-    initialIndex = initialIndex,
-    dividerStyle = dividerStyle,
-    selectedTextStyle = selectedTextStyle,
-    unselectedTextStyle = unselectedTextStyle,
-    onValueChanged = { selectedIndex ->
-        onValueChanged(selectedIndex)
-    },
-)
-
 
 @ExperimentalFoundationApi
 private val OneTherePageSize = object : PageSize {
@@ -440,7 +448,7 @@ private val OneTherePageSize = object : PageSize {
 @Composable
 private fun VerticalNumberPickerPreview() {
     val values = 1..10
-    VerticalNumberPicker(
+    NumberPicker(
         modifier = Modifier
             .size(width = 100.dp, height = 150.dp),
         values = values,
@@ -459,7 +467,7 @@ private fun VerticalNumberPickerPreview() {
 @Composable
 private fun HorizontalNumberPickerPreview() {
     val values = 1..10
-    HorizontalNumberPicker(
+    NumberPicker(
         modifier = Modifier
             .size(width = 150.dp, height = 100.dp),
         values = values,
