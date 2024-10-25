@@ -4,8 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.abdo21.core.PickerRow
 import com.abdo21.core.toPx
-import com.abdo21.numberpicker.VerticalNumberPicker
 import com.abdo21.numberpicker.PickerDividerStyle
 import com.abdo21.numberpicker.PickerTextStyle
+import com.abdo21.numberpicker.VerticalNumberPicker
 import java.util.Calendar
 
 
@@ -78,21 +78,18 @@ fun DatePicker(
     minYear: Int = 1987,
     maxYear: Int = 2100
 ) {
-    var year by remember {
-        mutableIntStateOf(initialDate.year)
-    }
 
-    var month by remember {
-        mutableIntStateOf(initialDate.month)
+    var date by remember {
+        mutableStateOf(initialDate)
     }
-
-    var day = initialDate.day
 
     val yearRange = minYear..maxYear
     val monthRange = 1..12
 
-    val dayRange by remember(year, month) {
-        mutableStateOf(1..numberOfDays(year, month))
+    val dayRange by remember(date) {
+        derivedStateOf {
+            1..numberOfDays(date.year, date.month)
+        }
     }
 
     PickerRow(
@@ -101,9 +98,9 @@ fun DatePicker(
     ) {
         VerticalNumberPicker(
             values = yearRange,
-            initialIndex = year - minYear,
+            initialIndex = date.year - minYear,
             onValueChanged = { selectedIndex ->
-                year = yearRange.first + selectedIndex
+                date = date.copy(year = yearRange.first + selectedIndex)
             },
             dividerStyle = dividerStyle,
             selectedTextStyle = selectedTextStyle,
@@ -112,9 +109,9 @@ fun DatePicker(
 
         VerticalNumberPicker(
             values = monthRange,
-            initialIndex = month,
+            initialIndex = date.month,
             onValueChanged = { selectedIndex ->
-                month = monthRange.first + selectedIndex
+                date = date.copy(month = monthRange.first + selectedIndex)
             },
             dividerStyle = dividerStyle,
             selectedTextStyle = selectedTextStyle,
@@ -123,9 +120,9 @@ fun DatePicker(
 
         VerticalNumberPicker(
             values = dayRange,
-            initialIndex = day-1,
+            initialIndex = date.day-1,
             onValueChanged = { selectedIndex ->
-                day = dayRange.first + selectedIndex
+                date = date.copy(day = dayRange.first + selectedIndex)
             },
             dividerStyle = dividerStyle,
             selectedTextStyle = selectedTextStyle,
@@ -133,8 +130,8 @@ fun DatePicker(
         )
     }
 
-    LaunchedEffect(key1 = year, key2 = month, key3 = day) {
-        onValueChanged(Date(year, month, day))
+    LaunchedEffect(date) {
+        onValueChanged(date)
     }
 }
 
