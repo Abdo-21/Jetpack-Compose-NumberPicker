@@ -32,14 +32,15 @@ Example:
 ```kotlin
 @Composable
 fun NumberPickerExample() {
-    var selectedIndex by remember { mutableStateOf(0) }
+    val values = 1..10
 
     NumberPicker(
-        values = listOf(1, 2, 3, 4, 5),
-        selectedIndex = selectedIndex,
-        onSelectedIndexChange = { index -> selectedIndex = index },
-        selectedTextStyle = PickerTextStyle(fontSize = 20.sp, textColor = Color.Red),
-        unselectedTextStyle = PickerTextStyle(fontSize = 14.sp, textColor = Color.Gray)
+        modifier = Modifier
+            .size(width = 100.dp, height = 150.dp),
+        values = values,
+        onValueChanged = { selectedIndex ->
+
+        }
     )
 }
 ```
@@ -53,17 +54,13 @@ Example:
 ```kotlin
 @Composable
 fun TimePickerExample() {
-    var selectedHour by remember { mutableStateOf(12) }
-    var selectedMinute by remember { mutableStateOf(30) }
-
     TimePicker(
-        selectedHour = selectedHour,
-        selectedMinute = selectedMinute,
-        onTimeChanged = { hour, minute ->
-            selectedHour = hour
-            selectedMinute = minute
-        },
-        is24HourFormat = true
+        modifier = Modifier
+            .background(color = Color.LightGray)
+            .size(width = 340.dp, height = 300.dp),
+        onValueChanged = { _, _, _ ->
+
+        }
     )
 }
 ```
@@ -77,12 +74,12 @@ Example:
 ```kotlin
 @Composable
 fun DatePickerExample() {
-    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
-
     DatePicker(
-        selectedDate = selectedDate,
-        onDateChanged = { date ->
-            selectedDate = date
+        modifier = Modifier
+            .background(color = Color.LightGray)
+            .size(width = 340.dp, height = 300.dp),
+        onValueChanged = { _, _, _ ->
+
         }
     )
 }
