@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.abdo21.core.PickerRow
 import com.abdo21.core.toPx
+import com.abdo21.numberpicker.NumberPicker
 import com.abdo21.numberpicker.PickerDividerStyle
 import com.abdo21.numberpicker.PickerTextStyle
-import com.abdo21.numberpicker.VerticalNumberPicker
 import java.util.Calendar
 
 
@@ -96,7 +96,7 @@ fun DatePicker(
         modifier = modifier,
         itemSpacing = itemSpacing.toPx().toInt()
     ) {
-        VerticalNumberPicker(
+        NumberPicker(
             values = yearRange,
             initialIndex = date.year - minYear,
             onValueChanged = { selectedIndex ->
@@ -107,7 +107,7 @@ fun DatePicker(
             unselectedTextStyle = unselectedTextStyle,
         )
 
-        VerticalNumberPicker(
+        NumberPicker(
             values = monthRange,
             initialIndex = date.month,
             onValueChanged = { selectedIndex ->
@@ -118,7 +118,7 @@ fun DatePicker(
             unselectedTextStyle = unselectedTextStyle,
         )
 
-        VerticalNumberPicker(
+        NumberPicker(
             values = dayRange,
             initialIndex = date.day-1,
             onValueChanged = { selectedIndex ->
