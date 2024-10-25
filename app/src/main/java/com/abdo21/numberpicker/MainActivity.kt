@@ -30,7 +30,8 @@ import androidx.compose.ui.unit.sp
 import com.abdo21.datepicker.Date
 import com.abdo21.datepicker.DatePicker
 import com.abdo21.numberpicker.ui.theme.NumberPickerTheme
-import com.abdo21.timepicker.Time
+import com.abdo21.timepicker.AMPMTime
+import com.abdo21.timepicker.H24Time
 import com.abdo21.timepicker.TimePicker
 
 
@@ -54,7 +55,8 @@ class MainActivity : ComponentActivity() {
                         StringPickerExamplePreview()
                         Spacer(modifier = Modifier.height(10.dp))
                         HorizontalDivider()
-                        TimePickerExamplePreview()
+                        //AMPMTimePickerExamplePreview()
+                        H24TimePickerExamplePreview()
                     }
                 }
             }
@@ -76,7 +78,7 @@ private fun NumberPickerExamplePreview(modifier: Modifier = Modifier) {
     ) {
         Text(text = "$selectedValue")
         Spacer(modifier = Modifier.height(10.dp))
-        VerticalNumberPicker(
+        NumberPicker(
             modifier = Modifier
                 .size(width = 100.dp, height = 150.dp)
                 .background(color = Color.Cyan),
@@ -107,7 +109,7 @@ private fun StringPickerExamplePreview(modifier: Modifier = Modifier) {
     ) {
         Text(text = selectedValue)
         Spacer(modifier = Modifier.height(10.dp))
-        VerticalStringPicker(
+        StringPicker(
             modifier = Modifier
                 .size(width = 100.dp, height = 150.dp)
                 .background(color = Color.Blue),
@@ -134,8 +136,8 @@ private fun StringPickerExamplePreview(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-private fun TimePickerExamplePreview(modifier: Modifier = Modifier) {
-    var selectedValue by remember { mutableStateOf(Time.Default) }
+private fun AMPMTimePickerExamplePreview(modifier: Modifier = Modifier) {
+    var selectedValue by remember { mutableStateOf(AMPMTime.Zero) }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -146,6 +148,40 @@ private fun TimePickerExamplePreview(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(10.dp))
 
         TimePicker(
+            initialTime = AMPMTime.NOW,
+            modifier = Modifier
+                .background(color = Color.Green)
+                .size(width = 340.dp, height = 300.dp),
+            onValueChanged = { selectedTime ->
+                selectedValue = selectedTime
+            },
+            selectedTextStyle = PickerTextStyle(
+                fontWeight = FontWeight.Bold,
+                textSize = 30.sp,
+                textColor = Color.Red
+            ),
+            unselectedTextStyle = PickerTextStyle(
+                textColor = Color.Blue
+            )
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun H24TimePickerExamplePreview(modifier: Modifier = Modifier) {
+    var selectedValue by remember { mutableStateOf(H24Time.Zero) }
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        Text(text = selectedValue.toString())
+        Spacer(modifier = Modifier.height(10.dp))
+
+        TimePicker(
+            initialTime = H24Time.NOW,
             modifier = Modifier
                 .background(color = Color.Green)
                 .size(width = 340.dp, height = 300.dp),
