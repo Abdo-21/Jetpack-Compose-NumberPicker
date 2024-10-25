@@ -171,6 +171,17 @@ fun StringPicker(
     }
 }
 
+/**
+ * A composable for selecting a number from a list of values.
+ *
+ * @param values List of numbers to display.
+ * @param onValueChanged Callback invoked when the selected item changes, providing the new index.
+ * @param modifier Modifier for customizing layout.
+ * @param initialIndex Index of the item selected initially.
+ * @param dividerStyle Style for dividers between items.
+ * @param selectedTextStyle Style for the selected item’s text.
+ * @param unselectedTextStyle Style for unselected items’ text.
+ */
 @Composable
 fun <T: Number> NumberPicker(
     values : List<T>,
@@ -193,7 +204,7 @@ fun <T: Number> NumberPicker(
 )
 
 /**
- * A composable for selecting a number from a list of values.
+ * A composable for selecting a number from a range of values.
  *
  * @param values List of numbers to display.
  * @param onValueChanged Callback invoked when the selected item changes, providing the new index.

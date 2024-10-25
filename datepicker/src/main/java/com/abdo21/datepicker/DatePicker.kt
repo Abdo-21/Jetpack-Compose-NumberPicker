@@ -53,6 +53,19 @@ data class Date(
     }
 }
 
+/**
+ * A composable for selecting a date (year, month, day).
+ *
+ * @param onValueChanged Callback invoked when the date changes, providing the selected year, month, and day.
+ * @param modifier Modifier for customizing layout.
+ * @param initialDate The initial date to display.
+ * @param dividerStyle Style for dividers between items.
+ * @param itemSpacing Spacing between picker items.
+ * @param selectedTextStyle Text style for the selected date.
+ * @param unselectedTextStyle Text style for unselected dates.
+ * @param minYear Minimum year the picker can display.
+ * @param maxYear Maximum year the picker can display.
+ */
 @Composable
 fun DatePicker(
     onValueChanged: (year: Int, month: Int, day: Int) -> Unit,
