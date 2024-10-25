@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier
                                 .size(width = 100.dp, height = 150.dp),
                             values = values,
-                            onValueChanged = {
+                            onValueChanged = { selectedIndex ->
 
                             }
                         )
