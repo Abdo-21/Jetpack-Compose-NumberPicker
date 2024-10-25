@@ -15,19 +15,41 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.abdo21.core.PickerRow
 import com.abdo21.core.toPx
+import com.abdo21.numberpicker.NumberPicker
 import com.abdo21.numberpicker.PickerDividerStyle
 import com.abdo21.numberpicker.PickerTextStyle
-import com.abdo21.numberpicker.VerticalNumberPicker
-import com.abdo21.numberpicker.VerticalStringPicker
+import com.abdo21.numberpicker.StringPicker
 import java.util.Calendar
 
 enum class TimeMode { AM, PM }
 
-data class Time(
+sealed class Time(
     val hour: Int,
     val minute: Int,
-    val timeMode: TimeMode
+    val timeMode: TimeMode?
 ) {
+    abstract fun copy(
+        hour: Int = this.hour,
+        minute: Int = this.minute,
+        timeMode: TimeMode? = this.timeMode
+    ) : Time
+}
+
+class AMPMTime(
+    hour: Int,
+    minute: Int,
+    timeMode: TimeMode?
+) : Time(hour, minute, timeMode) {
+
+    override fun copy(
+        hour: Int,
+        minute: Int,
+        timeMode: TimeMode?
+    ) = AMPMTime(
+        hour = hour,
+        minute = minute,
+        timeMode = timeMode
+    )
 
     companion object {
         val Default = run {
@@ -35,10 +57,37 @@ data class Time(
             val currentHour = calendar.get(Calendar.HOUR)
             val currentMinute = calendar.get(Calendar.MINUTE)
             val mode = calendar.get(Calendar.AM_PM)
-            Time(
+            AMPMTime(
                 hour = currentHour,
                 minute = currentMinute,
                 timeMode = if (mode == Calendar.AM) TimeMode.AM else TimeMode.PM
+            )
+        }
+    }
+}
+
+class H24Time(
+    hour: Int,
+    minute: Int,
+) : Time(hour, minute, null) {
+
+    override fun copy(
+        hour: Int,
+        minute: Int,
+        timeMode: TimeMode?
+    ) = H24Time(
+        hour = hour,
+        minute = minute
+    )
+
+    companion object {
+        val Default = run {
+            val calendar = Calendar.getInstance()
+            val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+            val currentMinute = calendar.get(Calendar.MINUTE)
+            H24Time(
+                hour = currentHour,
+                minute = currentMinute
             )
         }
     }
@@ -59,7 +108,39 @@ data class Time(
 fun TimePicker(
     onValueChanged: (selectedTime: Time) -> Unit,
     modifier: Modifier = Modifier,
-    initialTime: Time = Time.Default,
+    is24Hour: Boolean = false,
+    initialTime: Time = if (is24Hour) H24Time.Default else AMPMTime.Default,
+    dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
+    itemSpacing: Dp = 10.dp,
+    selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
+    unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
+) = if (is24Hour) {
+    H24TimePicker(
+        onValueChanged = onValueChanged,
+        modifier = modifier,
+        initialTime = initialTime as H24Time,
+        dividerStyle = dividerStyle,
+        itemSpacing = itemSpacing,
+        selectedTextStyle = selectedTextStyle,
+        unselectedTextStyle = unselectedTextStyle
+    )
+} else {
+    AMPMTimePicker(
+        onValueChanged = onValueChanged,
+        modifier = modifier,
+        initialTime = initialTime as AMPMTime,
+        dividerStyle = dividerStyle,
+        itemSpacing = itemSpacing,
+        selectedTextStyle = selectedTextStyle,
+        unselectedTextStyle = unselectedTextStyle
+    )
+}
+
+@Composable
+private fun AMPMTimePicker(
+    onValueChanged: (selectedTime: Time) -> Unit,
+    modifier: Modifier = Modifier,
+    initialTime: Time = AMPMTime.Default,
     dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
     itemSpacing: Dp = 10.dp,
     selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
@@ -77,7 +158,7 @@ fun TimePicker(
         modifier = modifier,
         itemSpacing = itemSpacing.toPx().toInt()
     ) {
-        VerticalNumberPicker(
+        NumberPicker(
             values = hourRange,
             initialIndex = time.hour - 1,
             onValueChanged = { selectedIndex ->
@@ -88,7 +169,7 @@ fun TimePicker(
             unselectedTextStyle = unselectedTextStyle,
         )
 
-        VerticalNumberPicker(
+        NumberPicker(
             values = minuteRange,
             initialIndex = time.minute,
             onValueChanged = { selectedIndex ->
@@ -99,9 +180,9 @@ fun TimePicker(
             unselectedTextStyle = unselectedTextStyle,
         )
 
-        VerticalStringPicker(
+        StringPicker(
             values = modes,
-            initialIndex = time.timeMode.ordinal,
+            initialIndex = time.timeMode!!.ordinal,
             onValueChanged = { selectedIndex ->
                 time = time.copy(timeMode = if (modes[selectedIndex] == "AM") TimeMode.AM else TimeMode.PM)
             },
@@ -116,6 +197,56 @@ fun TimePicker(
     }
 }
 
+@Composable
+private fun H24TimePicker(
+    onValueChanged: (selectedTime: Time) -> Unit,
+    modifier: Modifier = Modifier,
+    initialTime: Time = H24Time.Default,
+    dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
+    itemSpacing: Dp = 10.dp,
+    selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
+    unselectedTextStyle: PickerTextStyle = PickerTextStyle.Default
+) {
+    var time by remember {
+        mutableStateOf(initialTime)
+    }
+
+    val hourRange = 1..12
+    val minuteRange = 0..59
+
+    PickerRow(
+        modifier = modifier,
+        itemSpacing = itemSpacing.toPx().toInt()
+    ) {
+        NumberPicker(
+            values = hourRange,
+            initialIndex = time.hour - 1,
+            onValueChanged = { selectedIndex ->
+                time = time.copy(hour = hourRange.first + selectedIndex)
+            },
+            dividerStyle = dividerStyle,
+            selectedTextStyle = selectedTextStyle,
+            unselectedTextStyle = unselectedTextStyle,
+        )
+
+        NumberPicker(
+            values = minuteRange,
+            initialIndex = time.minute,
+            onValueChanged = { selectedIndex ->
+                time = time.copy(minute = minuteRange.first + selectedIndex)
+            },
+            dividerStyle = dividerStyle,
+            selectedTextStyle = selectedTextStyle,
+            unselectedTextStyle = unselectedTextStyle,
+        )
+    }
+
+    LaunchedEffect(time) {
+        onValueChanged(time)
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 private fun TimePickerPreview() {
@@ -125,6 +256,7 @@ private fun TimePickerPreview() {
             .size(width = 340.dp, height = 300.dp),
         onValueChanged = { selectedTime ->
 
-        }
+        },
+        is24Hour = true
     )
 }
