@@ -20,11 +20,21 @@ import com.abdo21.numberpicker.NumberPicker
 import com.abdo21.numberpicker.PickerDividerStyle
 import com.abdo21.numberpicker.PickerTextStyle
 
+data class Date(
+    val year: Int,
+    val month: Int,
+    val day: Int,
+) {
+    companion object {
+        val Default = currentDate()
+    }
+}
 
 @Composable
 fun DatePicker(
     onValueChanged: (year: Int, month: Int, day: Int) -> Unit,
     modifier: Modifier = Modifier,
+    initialDate: Date = Date.Default,
     dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
     itemSpacing: Dp = 10.dp,
     selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
@@ -33,14 +43,14 @@ fun DatePicker(
     maxYear: Int = 2100
 ) {
     var year by remember {
-        mutableIntStateOf(0)
+        mutableIntStateOf(initialDate.year)
     }
 
     var month by remember {
-        mutableIntStateOf(0)
+        mutableIntStateOf(initialDate.month)
     }
 
-    var day = 0
+    var day = initialDate.day
 
     val yearRange = minYear..maxYear
     val monthRange = 1..12
@@ -55,6 +65,7 @@ fun DatePicker(
     ) {
         NumberPicker(
             values = yearRange,
+            initialIndex = year - minYear,
             onValueChanged = { selectedIndex ->
                 year = yearRange.first + selectedIndex
             },
@@ -65,6 +76,7 @@ fun DatePicker(
 
         NumberPicker(
             values = monthRange,
+            initialIndex = month,
             onValueChanged = { selectedIndex ->
                 month = monthRange.first + selectedIndex
             },
@@ -75,6 +87,7 @@ fun DatePicker(
 
         NumberPicker(
             values = dayRange,
+            initialIndex = day-1,
             onValueChanged = { selectedIndex ->
                 day = dayRange.first + selectedIndex
             },

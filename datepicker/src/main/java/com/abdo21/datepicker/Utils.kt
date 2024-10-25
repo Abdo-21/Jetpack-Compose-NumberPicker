@@ -12,3 +12,18 @@ internal fun numberOfDays(year: Int, month: Int): Int {
     // Use the actual maximum number of days in the month.
     return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 }
+
+
+internal fun currentDate() : Date {
+    val calendar = Calendar.getInstance()
+
+    val currentYear = calendar.get(Calendar.YEAR)
+    val currentMonth = calendar.get(Calendar.MONTH)
+    val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+
+    return Date(
+        year = currentYear,
+        month = currentMonth,
+        day = currentDay
+    )
+}
