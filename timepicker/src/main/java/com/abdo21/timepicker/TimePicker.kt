@@ -11,10 +11,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.abdo21.core.PickerRow
 import com.abdo21.core.toPx
-import com.abdo21.numberpicker.NumberPicker
+import com.abdo21.numberpicker.VerticalNumberPicker
 import com.abdo21.numberpicker.PickerDividerStyle
 import com.abdo21.numberpicker.PickerTextStyle
-import com.abdo21.numberpicker.StringPicker
+import com.abdo21.numberpicker.VerticalStringPicker
 import java.util.Calendar
 
 enum class TimeMode { AM, PM }
@@ -53,7 +53,7 @@ data class Time(
  */
 @Composable
 fun TimePicker(
-    onValueChanged: (hour: Int, minute: Int, timeMode: TimeMode) -> Unit,
+    onValueChanged: (selectedTime: Time) -> Unit,
     modifier: Modifier = Modifier,
     initialTime: Time = Time.Default,
     dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
@@ -73,7 +73,7 @@ fun TimePicker(
         modifier = modifier,
         itemSpacing = itemSpacing.toPx().toInt()
     ) {
-        NumberPicker(
+        VerticalNumberPicker(
             values = hourRange,
             initialIndex = hour - 1,
             onValueChanged = { selectedIndex ->
@@ -84,7 +84,7 @@ fun TimePicker(
             unselectedTextStyle = unselectedTextStyle,
         )
 
-        NumberPicker(
+        VerticalNumberPicker(
             values = minuteRange,
             initialIndex = minute,
             onValueChanged = { selectedIndex ->
@@ -95,7 +95,7 @@ fun TimePicker(
             unselectedTextStyle = unselectedTextStyle,
         )
 
-        StringPicker(
+        VerticalStringPicker(
             values = modes,
             initialIndex = timeMode.ordinal,
             onValueChanged = { selectedIndex ->
@@ -108,7 +108,7 @@ fun TimePicker(
     }
 
     LaunchedEffect(key1 = hour, key2 = minute, key3 = timeMode) {
-        onValueChanged(hour, minute, timeMode)
+        onValueChanged(Time(hour, minute, timeMode))
     }
 }
 
@@ -119,7 +119,7 @@ private fun TimePickerPreview() {
         modifier = Modifier
             .background(color = Color.LightGray)
             .size(width = 340.dp, height = 300.dp),
-        onValueChanged = { _, _, _ ->
+        onValueChanged = { selectedTime ->
 
         }
     )

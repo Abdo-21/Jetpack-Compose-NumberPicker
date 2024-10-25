@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.abdo21.core.PickerRow
 import com.abdo21.core.toPx
-import com.abdo21.numberpicker.NumberPicker
+import com.abdo21.numberpicker.VerticalNumberPicker
 import com.abdo21.numberpicker.PickerDividerStyle
 import com.abdo21.numberpicker.PickerTextStyle
 import java.util.Calendar
@@ -68,7 +68,7 @@ data class Date(
  */
 @Composable
 fun DatePicker(
-    onValueChanged: (year: Int, month: Int, day: Int) -> Unit,
+    onValueChanged: (date: Date) -> Unit,
     modifier: Modifier = Modifier,
     initialDate: Date = Date.Default,
     dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
@@ -99,7 +99,7 @@ fun DatePicker(
         modifier = modifier,
         itemSpacing = itemSpacing.toPx().toInt()
     ) {
-        NumberPicker(
+        VerticalNumberPicker(
             values = yearRange,
             initialIndex = year - minYear,
             onValueChanged = { selectedIndex ->
@@ -110,7 +110,7 @@ fun DatePicker(
             unselectedTextStyle = unselectedTextStyle,
         )
 
-        NumberPicker(
+        VerticalNumberPicker(
             values = monthRange,
             initialIndex = month,
             onValueChanged = { selectedIndex ->
@@ -121,7 +121,7 @@ fun DatePicker(
             unselectedTextStyle = unselectedTextStyle,
         )
 
-        NumberPicker(
+        VerticalNumberPicker(
             values = dayRange,
             initialIndex = day-1,
             onValueChanged = { selectedIndex ->
@@ -134,7 +134,7 @@ fun DatePicker(
     }
 
     LaunchedEffect(key1 = year, key2 = month, key3 = day) {
-        onValueChanged(year, month, day)
+        onValueChanged(Date(year, month, day))
     }
 }
 
@@ -146,7 +146,7 @@ private fun DatePickerPreview() {
         modifier = Modifier
             .background(color = Color.LightGray)
             .size(width = 340.dp, height = 300.dp),
-        onValueChanged = { _, _, _ ->
+        onValueChanged = { selectedDate ->
 
         }
     )
