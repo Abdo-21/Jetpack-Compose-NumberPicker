@@ -38,19 +38,13 @@ data class Date(
     val month: Int,
     val day: Int,
 ) {
-
-
     companion object {
-        val Default = currentDate()
-
-        private fun currentDate() : Date {
+        val Default = run {
             val calendar = Calendar.getInstance()
-
             val currentYear = calendar.get(Calendar.YEAR)
             val currentMonth = calendar.get(Calendar.MONTH)
             val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
-
-            return Date(
+            Date(
                 year = currentYear,
                 month = currentMonth,
                 day = currentDay

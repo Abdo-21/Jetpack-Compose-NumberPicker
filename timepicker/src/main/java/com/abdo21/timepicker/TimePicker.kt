@@ -26,16 +26,12 @@ data class Time(
 ) {
 
     companion object {
-        val Default = currentTime()
-
-        private fun currentTime() : Time {
+        val Default = run {
             val calendar = Calendar.getInstance()
-
             val currentHour = calendar.get(Calendar.HOUR)
             val currentMinute = calendar.get(Calendar.MINUTE)
             val mode = calendar.get(Calendar.AM_PM)
-
-            return Time(
+            Time(
                 hour = currentHour,
                 minute = currentMinute,
                 timeMode = if (mode == Calendar.AM) TimeMode.AM else TimeMode.PM
