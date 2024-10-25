@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier
                                 .background(color = Color.LightGray)
                                 .size(width = 340.dp, height = 300.dp),
-                            onValueChanged = { _, _, _ ->
+                            onValueChanged = { hour, minute, timeMode ->
 
                             }
                         )
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier
                                 .background(color = Color.LightGray)
                                 .size(width = 340.dp, height = 300.dp),
-                            onValueChanged = { _, _, _ ->
+                            onValueChanged = { year, month, day ->
 
                             }
                         )
@@ -73,5 +73,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
