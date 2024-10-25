@@ -19,14 +19,43 @@ import com.abdo21.core.toPx
 import com.abdo21.numberpicker.NumberPicker
 import com.abdo21.numberpicker.PickerDividerStyle
 import com.abdo21.numberpicker.PickerTextStyle
+import java.util.Calendar
+
+
+private fun numberOfDays(year: Int, month: Int): Int {
+    val calendar = Calendar.getInstance()
+
+    // Set the year and month. The month is zero-based, so subtract 1 from the input month.
+    calendar.set(year, month - 1, 1)
+
+    // Use the actual maximum number of days in the month.
+    return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+}
+
 
 data class Date(
     val year: Int,
     val month: Int,
     val day: Int,
 ) {
+
+
     companion object {
         val Default = currentDate()
+
+        private fun currentDate() : Date {
+            val calendar = Calendar.getInstance()
+
+            val currentYear = calendar.get(Calendar.YEAR)
+            val currentMonth = calendar.get(Calendar.MONTH)
+            val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+
+            return Date(
+                year = currentYear,
+                month = currentMonth,
+                day = currentDay
+            )
+        }
     }
 }
 

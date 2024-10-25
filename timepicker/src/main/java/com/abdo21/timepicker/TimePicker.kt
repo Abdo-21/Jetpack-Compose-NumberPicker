@@ -15,6 +15,7 @@ import com.abdo21.numberpicker.NumberPicker
 import com.abdo21.numberpicker.PickerDividerStyle
 import com.abdo21.numberpicker.PickerTextStyle
 import com.abdo21.numberpicker.StringPicker
+import java.util.Calendar
 
 enum class TimeMode { AM, PM }
 
@@ -23,8 +24,23 @@ data class Time(
     val minute: Int,
     val timeMode: TimeMode
 ) {
+
     companion object {
         val Default = currentTime()
+
+        private fun currentTime() : Time {
+            val calendar = Calendar.getInstance()
+
+            val currentHour = calendar.get(Calendar.HOUR)
+            val currentMinute = calendar.get(Calendar.MINUTE)
+            val mode = calendar.get(Calendar.AM_PM)
+
+            return Time(
+                hour = currentHour,
+                minute = currentMinute,
+                timeMode = if (mode == Calendar.AM) TimeMode.AM else TimeMode.PM
+            )
+        }
     }
 }
 
