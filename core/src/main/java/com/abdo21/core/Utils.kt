@@ -33,8 +33,6 @@ inline fun PickerRow(
         content = content,
     ) { measurables, constraints ->
 
-        require(measurables.size == 3) { "You should provide 3 elements" }
-
         val itemWidth = (constraints.maxWidth - 4* itemSpacing)/3
 
         val placeables = measurables.map {
