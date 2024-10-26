@@ -129,7 +129,7 @@ private fun StringPickerExamplePreview(modifier: Modifier = Modifier) {
             },
             selectedTextStyle = PickerTextStyle(
                 fontWeight = FontWeight.Bold,
-                textSize = 40.sp,
+                textSize = 30.sp,
                 textColor = Color.Green
             ),
             unselectedTextStyle = PickerTextStyle(
@@ -137,7 +137,7 @@ private fun StringPickerExamplePreview(modifier: Modifier = Modifier) {
             ),
             dividerStyle = PickerDividerStyle(
                 color = Color.Cyan,
-                thickness = 5.dp
+                thickness = 4.dp
             )
         )
     }
