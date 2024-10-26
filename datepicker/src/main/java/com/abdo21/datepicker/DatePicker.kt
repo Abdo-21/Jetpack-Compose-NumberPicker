@@ -1,6 +1,5 @@
 package com.abdo21.datepicker
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,9 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.abdo21.core.PickerRow
 import com.abdo21.core.toPx
 import com.abdo21.numberpicker.NumberPicker
@@ -40,7 +41,7 @@ data class Date(
     val day: Int,
 ) {
     companion object {
-        val Default = run {
+        val NOW = run {
             val calendar = Calendar.getInstance()
             val currentYear = calendar.get(Calendar.YEAR)
             val currentMonth = calendar.get(Calendar.MONTH)
@@ -76,7 +77,7 @@ data class Date(
 fun DatePicker(
     onValueChanged: (date: Date) -> Unit,
     modifier: Modifier = Modifier,
-    initialDate: Date = Date.Default,
+    initialDate: Date = Date.NOW,
     dividerStyle: PickerDividerStyle = PickerDividerStyle.Default,
     itemSpacing: Dp = 10.dp,
     selectedTextStyle: PickerTextStyle = PickerTextStyle.Default,
@@ -147,10 +148,21 @@ fun DatePicker(
 private fun DatePickerPreview() {
     DatePicker(
         modifier = Modifier
-            .background(color = Color.LightGray)
             .size(width = 340.dp, height = 300.dp),
-        onValueChanged = { selectedDate ->
+        onValueChanged = { date ->
 
-        }
+        },
+        selectedTextStyle = PickerTextStyle(
+            fontWeight = FontWeight.Bold,
+            textSize = 20.sp,
+            textColor = Color.Green
+        ),
+        unselectedTextStyle = PickerTextStyle(
+            textColor = Color.LightGray,
+        ),
+        dividerStyle = PickerDividerStyle(
+            thickness = 2.dp,
+            color = Color.Cyan
+        )
     )
 }

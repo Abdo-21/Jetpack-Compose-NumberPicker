@@ -213,7 +213,7 @@ private fun AMPMTimePickerPreview() {
         modifier = Modifier
             .background(color = Color.LightGray)
             .size(width = 340.dp, height = 300.dp),
-        onValueChanged = { selectedTime ->
+        onValueChanged = { time ->
 
         },
     )

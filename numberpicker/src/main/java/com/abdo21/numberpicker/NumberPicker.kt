@@ -471,7 +471,7 @@ private fun HorizontalNumberPickerPreview() {
         modifier = Modifier
             .size(width = 150.dp, height = 100.dp),
         values = values,
-        onValueChanged = {
+        onValueChanged = { index ->
 
         },
         selectedTextStyle = PickerTextStyle(

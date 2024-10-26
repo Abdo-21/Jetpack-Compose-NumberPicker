@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -213,7 +212,7 @@ private fun H24TimePickerExamplePreview(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun DatePickerExamplePreview(modifier: Modifier = Modifier) {
-    var selectedDate by remember { mutableStateOf(Date.Default) }
+    var selectedDate by remember { mutableStateOf(Date.NOW) }
 
     Column(
         verticalArrangement = Arrangement.Center,
