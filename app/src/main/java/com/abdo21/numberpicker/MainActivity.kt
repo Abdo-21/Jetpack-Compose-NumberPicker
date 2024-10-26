@@ -7,11 +7,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,6 +24,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -47,16 +51,22 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                             .fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        NumberPickerExamplePreview()
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                        ) {
+                            NumberPickerExamplePreview()
+                            StringPickerExamplePreview()
+                        }
+
                         Spacer(modifier = Modifier.height(10.dp))
                         HorizontalDivider()
-                        StringPickerExamplePreview()
+                        AMPMTimePickerExamplePreview()
                         Spacer(modifier = Modifier.height(10.dp))
                         HorizontalDivider()
-                        //AMPMTimePickerExamplePreview()
-                        H24TimePickerExamplePreview()
+                        DatePickerExamplePreview()
                     }
                 }
             }
@@ -69,22 +79,22 @@ class MainActivity : ComponentActivity() {
 private fun NumberPickerExamplePreview(modifier: Modifier = Modifier) {
     val values = 1..10
 
-    var selectedValue by remember { mutableIntStateOf(0) }
+    var selectedNumber by remember { mutableIntStateOf(0) }
 
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(text = "$selectedValue")
+        Text(text = "$selectedNumber")
         Spacer(modifier = Modifier.height(10.dp))
         NumberPicker(
             modifier = Modifier
-                .size(width = 100.dp, height = 150.dp)
+                .size(width = 70.dp, height = 120.dp)
                 .background(color = Color.Cyan),
             values = values,
             onValueChanged = { selectedIndex ->
-                selectedValue = values.elementAt(selectedIndex)
+                selectedNumber = values.elementAt(selectedIndex)
             },
             selectedTextStyle = PickerTextStyle(
                 fontWeight = FontWeight.Bold,
@@ -100,22 +110,22 @@ private fun NumberPickerExamplePreview(modifier: Modifier = Modifier) {
 private fun StringPickerExamplePreview(modifier: Modifier = Modifier) {
     val values = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J")
 
-    var selectedValue by remember { mutableStateOf("") }
+    var selectedString by remember { mutableStateOf("") }
 
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(text = selectedValue)
+        Text(text = selectedString)
         Spacer(modifier = Modifier.height(10.dp))
         StringPicker(
             modifier = Modifier
-                .size(width = 100.dp, height = 150.dp)
+                .size(width = 70.dp, height = 120.dp)
                 .background(color = Color.Blue),
             values = values,
-            onValueChanged = { selectedIndex ->
-                selectedValue = values[selectedIndex]
+            onValueChanged = { index ->
+                selectedString = values[index]
             },
             selectedTextStyle = PickerTextStyle(
                 fontWeight = FontWeight.Bold,
@@ -137,23 +147,23 @@ private fun StringPickerExamplePreview(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun AMPMTimePickerExamplePreview(modifier: Modifier = Modifier) {
-    var selectedValue by remember { mutableStateOf(AMPMTime.Zero) }
+    var selectedAMPMTime by remember { mutableStateOf(AMPMTime.Zero) }
 
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(text = selectedValue.toString())
+        Text(text = "${selectedAMPMTime.hour}:${selectedAMPMTime.minute} ${selectedAMPMTime.timeMode}")
         Spacer(modifier = Modifier.height(10.dp))
 
         TimePicker(
             initialTime = AMPMTime.NOW,
             modifier = Modifier
                 .background(color = Color.Green)
-                .size(width = 340.dp, height = 300.dp),
-            onValueChanged = { selectedTime ->
-                selectedValue = selectedTime
+                .size(width = 250.dp, height = 200.dp),
+            onValueChanged = { time ->
+                selectedAMPMTime = time
             },
             selectedTextStyle = PickerTextStyle(
                 fontWeight = FontWeight.Bold,
@@ -170,23 +180,23 @@ private fun AMPMTimePickerExamplePreview(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun H24TimePickerExamplePreview(modifier: Modifier = Modifier) {
-    var selectedValue by remember { mutableStateOf(H24Time.Zero) }
+    var selectedH24Time by remember { mutableStateOf(H24Time.Zero) }
 
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(text = selectedValue.toString())
+        Text(text = selectedH24Time.toString())
         Spacer(modifier = Modifier.height(10.dp))
 
         TimePicker(
             initialTime = H24Time.NOW,
             modifier = Modifier
                 .background(color = Color.Green)
-                .size(width = 340.dp, height = 300.dp),
-            onValueChanged = { selectedTime ->
-                selectedValue = selectedTime
+                .size(width = 250.dp, height = 200.dp),
+            onValueChanged = { time ->
+                selectedH24Time = time
             },
             selectedTextStyle = PickerTextStyle(
                 fontWeight = FontWeight.Bold,
@@ -203,31 +213,30 @@ private fun H24TimePickerExamplePreview(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun DatePickerExamplePreview(modifier: Modifier = Modifier) {
-    var selectedValue by remember { mutableStateOf(Date.Default) }
+    var selectedDate by remember { mutableStateOf(Date.Default) }
 
     Column(
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(text = selectedValue.toString())
+        Text(text = "${selectedDate.day} ${Date.shortMonthNames[selectedDate.month-1]} ${selectedDate.year}")
         Spacer(modifier = Modifier.height(10.dp))
         DatePicker(
             modifier = Modifier
-                .background(color = Color.Green)
-                .size(width = 340.dp, height = 300.dp),
-            onValueChanged = { selectedDate ->
-                selectedValue = selectedDate
+                .background(color = Color.Magenta)
+                .size(width = 250.dp, height = 200.dp),
+            onValueChanged = { date ->
+                selectedDate = date
             },
             selectedTextStyle = PickerTextStyle(
                 fontWeight = FontWeight.Bold,
                 textSize = 20.sp,
-                textColor = Color.Red
+                textColor = Color.Yellow
+            ),
+            unselectedTextStyle = PickerTextStyle(
+                textColor = Color.White
             )
         )
     }
 }
-
-
-
-
