@@ -19,6 +19,7 @@ import com.abdo21.core.toPx
 import com.abdo21.numberpicker.NumberPicker
 import com.abdo21.numberpicker.PickerDividerStyle
 import com.abdo21.numberpicker.PickerTextStyle
+import com.abdo21.numberpicker.StringPicker
 import java.util.Calendar
 
 
@@ -50,6 +51,11 @@ data class Date(
                 day = currentDay
             )
         }
+
+        val shortMonthNames = listOf(
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        )
     }
 }
 
@@ -96,19 +102,8 @@ fun DatePicker(
         modifier = modifier,
         itemSpacing = itemSpacing.toPx().toInt()
     ) {
-        NumberPicker(
-            values = yearRange,
-            initialIndex = date.year - minYear,
-            onValueChanged = { selectedIndex ->
-                date = date.copy(year = yearRange.first + selectedIndex)
-            },
-            dividerStyle = dividerStyle,
-            selectedTextStyle = selectedTextStyle,
-            unselectedTextStyle = unselectedTextStyle,
-        )
-
-        NumberPicker(
-            values = monthRange,
+        StringPicker(
+            values = Date.shortMonthNames,
             initialIndex = date.month,
             onValueChanged = { selectedIndex ->
                 date = date.copy(month = monthRange.first + selectedIndex)
@@ -123,6 +118,17 @@ fun DatePicker(
             initialIndex = date.day-1,
             onValueChanged = { selectedIndex ->
                 date = date.copy(day = dayRange.first + selectedIndex)
+            },
+            dividerStyle = dividerStyle,
+            selectedTextStyle = selectedTextStyle,
+            unselectedTextStyle = unselectedTextStyle,
+        )
+
+        NumberPicker(
+            values = yearRange,
+            initialIndex = date.year - minYear,
+            onValueChanged = { selectedIndex ->
+                date = date.copy(year = yearRange.first + selectedIndex)
             },
             dividerStyle = dividerStyle,
             selectedTextStyle = selectedTextStyle,
